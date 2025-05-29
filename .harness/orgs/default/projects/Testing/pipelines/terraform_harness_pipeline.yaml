@@ -1,0 +1,71 @@
+pipeline:
+  name: terraform_harness_pipeline
+  identifier: terraform_harness_pipeline
+  projectIdentifier: Testing
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: cloning
+        identifier: cloning
+        description: ""
+        type: IACM
+        spec:
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          workspace: Harness_terraform_workspace
+          execution:
+            steps:
+              - step:
+                  type: GitClone
+                  name: GitClone_1
+                  identifier: GitClone_1
+                  spec:
+                    connectorRef: github_harness_terraform
+                    repoName: terraform-up-and-running-code
+                    build:
+                      type: branch
+                      spec:
+                        branch: master
+        tags: {}
+    - stage:
+        name: terraform_lifecycle_implementation
+        identifier: terraform_lifecycle_implementation
+        description: ""
+        type: IACM
+        spec:
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Cloud
+            spec: {}
+          workspace: Harness_terraform_workspace
+          execution:
+            steps:
+              - step:
+                  type: IACMTerraformPlugin
+                  name: init
+                  identifier: init
+                  timeout: 10m
+                  spec:
+                    command: init
+              - step:
+                  type: IACMTerraformPlugin
+                  name: plan
+                  identifier: plan
+                  timeout: 10m
+                  spec:
+                    command: plan
+              - step:
+                  type: IACMTerraformPlugin
+                  name: apply
+                  identifier: apply
+                  timeout: 10m
+                  spec:
+                    command: apply
+        tags: {}
