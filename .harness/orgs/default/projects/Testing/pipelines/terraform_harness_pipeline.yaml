@@ -26,11 +26,11 @@ pipeline:
                   identifier: GitClone_1
                   spec:
                     connectorRef: github_harness_terraform
-                    repoName: terraform-up-and-running-code
+                    repoName: terraform-zero-to-hero
                     build:
                       type: branch
                       spec:
-                        branch: master
+                        branch: main
         tags: {}
     - stage:
         name: terraform_lifecycle_implementation
